@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ffmpeg-deployment
+  labels:
+    app: ffmpeg
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ffmpeg
+  template:
+    metadata:
+      labels:
+        app: ffmpeg
+    spec:
+      containers:
+      - name: ffmpeg
+        imagePullPolicy: Always
+        image: ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/ffmpeg:1.0
+        args: ["-nostdin", "-y", "-re", "-vsync", "0", "-c:v", "h264_cuvid", "-hwaccel", "cuda", "-i", "bbb_sunflower_1080p_25fps_normal.ts", "-c:v",
+           "h264_nvenc", "-preset", "p1", "-profile:v", "baseline", "-b:v", "5M", "-an", "-f", "rtp", "-payload_type", "98", "rtp://192.168.6.196:5000?pkt_size=1316", "-loglevel", "verbose"]
+        securityContext:
+          privileged: false
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - NET_RAW
+          seccompProfile:
+            type: RuntimeDefault
+        ports:
+          - containerPort: 5000
+        resources:
+          limits:
+            nvidia.com/gpu: 1
