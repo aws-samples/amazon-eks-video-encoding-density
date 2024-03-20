@@ -111,7 +111,7 @@ helm upgrade --install karpenter oci://public.ecr.aws/karpenter/karpenter --vers
 envsubst < provisioner.yaml | kubectl apply -f -
 ```
 
-Create a deployment using the multi-arch container image:
+Create a deployment using the multi-arch container image. Update the deployment.yaml file if needed to specify the video file used to test with:
 
 ```
 envsubst < deployment.yaml | kubectl apply -f -

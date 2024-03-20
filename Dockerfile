@@ -519,7 +519,8 @@ RUN \
     /var/tmp/*
 
 COPY ./ffmpegwrapper.sh /
-COPY ./bbb_sunflower_1080p_30fps_normal.mp4 ./bbb_sunflower_1080p_30fps_normal.mp4
-COPY ./bbb_sunflower_1080p_25fps_normal.ts ./bbb_sunflower_1080p_25fps_normal.ts
+#Uncomment the below or add your own video file to test:
+#COPY ./bbb_sunflower_1080p_30fps_normal.mp4 ./bbb_sunflower_1080p_30fps_normal.mp4
+#COPY ./bbb_sunflower_1080p_25fps_normal.ts ./bbb_sunflower_1080p_25fps_normal.ts
 
 ENTRYPOINT ["/ffmpegwrapper.sh"]
